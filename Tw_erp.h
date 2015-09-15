@@ -6,28 +6,36 @@
 #include <iostream>
 #include <string>
 
-typedef struct res{int code; int gestion; bool doable_dev; bool doable_gestion};
+typedef struct res{int code; int gestion; bool doable_dev; bool doable_gestion;}Res;
 
-public class entreprise {
+class Commande {
+	public :
+		Commande(int num, std::string name, int dev, int gestion, int rendu);
+	
+	  int id;
+	  std::string nom;
+	  int joursRendu;
+	  int joursDev;
+	  int joursGestion;
+};
 
-  vector<Commande> l_commandes;
-  vector<Employe> l_employes;
-  public void evaluer();
-  public res faisable (Commande c, int debut);
-  public int recruter();
+class Employe {
+	public :
+	  Employe(std::string post, int c, int g);
+	
+	  std::string job;
+	  float code;
+	  float gestion;
+};
 
-}
+class Entreprise {
+	public :
+	  Entreprise();
+	  
+	  std::vector<Commande> l_commandes;
+	  std::vector<Employe> l_employes;
+	  void evaluer();
+	  res faisable (Commande c, int debut);
+	  int recruter();
+};
 
-public class Commande {
-  public int id;
-  std::string nom;
-  public int joursRendu;
-  public int joursDev;
-  public int joursGestion;
-}
-
-public class Employe {
-  std::string job;
-  float code;
-  float gestion;
-}

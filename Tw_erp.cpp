@@ -1,6 +1,6 @@
 #include "Tw_erp.h"
-
-Commande Commande(int num, std::string name, int dev, int gestion, int rendu)
+#include <iostream>
+Commande::Commande(int num, std::string name, int dev, int gestion, int rendu)
 {
   id = num;
   nom = name;
@@ -9,7 +9,7 @@ Commande Commande(int num, std::string name, int dev, int gestion, int rendu)
   joursGestion = gestion;
 }
 
-Employe Employe(std::string post, int c, int g)
+Employe::Employe(std::string post, int c, int g)
 {
   job = post;
   code = c/100;
@@ -17,7 +17,7 @@ Employe Employe(std::string post, int c, int g)
 }
 
 
-entreprise entreprise()
+Entreprise::Entreprise()
 {
   std::string line, tmp;
   char separator =' ';
@@ -53,7 +53,6 @@ entreprise entreprise()
   }
   l_commandes.
   ifstream employes("employes.txt", ios::in);
-  if (employes)
   {
     while (getline(employes,line))
     {
@@ -76,7 +75,7 @@ entreprise entreprise()
 
 
 
-Entreprise void evaluer()
+void Entreprise::evaluer()
 {
   int temps_dev = 0, temps_gestion = 0;
   int OK = 0;
@@ -98,7 +97,7 @@ Entreprise void evaluer()
 }a
 
 
-Entreprise res faisable (Commande c, int debut_code, int debut_gestion)
+Res Entreprise::faisable (Commande c, int debut_code, int debut_gestion)
 {
   int jours_code =0, i = 0, jours_gestion;
   int temps_dev_dispo = c.joursRendu - debut_code;
@@ -113,6 +112,13 @@ Entreprise res faisable (Commande c, int debut_code, int debut_gestion)
 }
 
 
-Entreprise int recruter()
+int Entreprise::recruter()
 {
+}
+
+int main(int argc, char* argv[])
+{
+	Entreprise e = Entreprise();
+	e.evaluer();
+	return 0;
 }
