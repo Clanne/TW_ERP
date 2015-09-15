@@ -35,7 +35,7 @@ class Entreprise {
 	  std::vector<Commande> l_commandes;
 	  std::vector<Employe> l_employes;
 	  void evaluer();
-	  res faisable (Commande c, int debut);
+	  Res faisable (Commande c, int debut, int debut_gestion);
 	  int recruter();
 };
 
