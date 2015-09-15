@@ -1,0 +1,31 @@
+la Société CGT a été créee en 2013 compte 7 personnes les 3 premiers étant co-actionnaires :
+-  1 PDG (CEO) en charge de l'organisation et du démarcharge commercial
+-  1 Responsable Technique en charge du développement
+-  1 Chef de Projet fonctionnel (vue métier) et technique
+-  3 développeur
+-  1 une secretaire standardiste.
+
+La cartographie du SI jointe fait apparaître les différentes activités de la société et les 2 logiciels utilisés :
+- People Soft Application (éditeur Oracle)
+- My Timesheet (logiciel développé en python par le responsable technique)
+
+Nous sommes le 1/1/16 Les projets en cours sont les suivants :
+- CREDIT MUTX reste 200 jours de développement et 40 jours de gestion de projet
+Date de livraison souhaitée 1/6/16
+- PEUGEIT reste 75 jours de développement et 25 jours de gestion de projet
+Date de livraison souhaité 1/3/16
+- RENULT reste 150 jours de développement et 45 jours de gestion de projet
+Date de livraison souhaitée 1/7/16
+
+Développez un outil qui permette de répondre aux questions suivantes :
+A- Serons nous capables de livrer nos 3 clients ?
+B- Si non, quand devrions nous avoir un problème et combien de ressources seraient nécessaires ?
+C- On remarque que l'éfficience constatée est de 80%. Refaire les questions A et B.
+D- On vient de signer un projet pour Airboss de 400 jours de Dev, 80 jours de gestion de projet pour le 1/9.
+refaire les questions A,B,C. Peux ton raisonnablement valider la date du 1/9 ?
+E -Sachant qu'un processus d'embauche dure généralement 3 mois et que la (ou les) personne(s) embauchée(s) sera(ont) efficace(s) au bout d'un mois supplémentaire, combien de personnes devraient être embauchées ?
+F- Quelles remarques pouvez vous faire sur le SI et la gestion de cette entreprise ?
+G- Essayer de simuler toutes ces étapes dans le logiciel Open Erp (Odoo)
+
+
+% de code, jours économisés
