@@ -1,5 +1,7 @@
 #include "Tw_erp.h"
 #include <iostream>
+#define EFF 0.8
+
 Commande::Commande(int num, std::string name, int dev, int gestion, int rendu)
 {
   id = num;
@@ -12,8 +14,8 @@ Commande::Commande(int num, std::string name, int dev, int gestion, int rendu)
 Employe::Employe(std::string post, int c, int g)
 {
   job = post;
-  code = c/100;
-  gestion = g/100;
+  code = c/100.;
+  gestion = g/100.;
 }
 
 
@@ -84,31 +86,45 @@ void Entreprise::evaluer()
     Res tmp = faisable(l_commandes.at(i), temps_dev, temps_gestion);
     if ( !(tmp.doable_dev && tmp.doable_gestion) )
     {
-      std::cout << "ACHTUNG ACHTUNG ES IST VERBOTEN" << std::endl;
+		
+	std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t NbDevreq : " << l_commandes.at(i).joursDev <<
+	 "\tNbGestreq : " << l_commandes.at(i).joursGestion << "\t NbJoursAvantRendu : " << l_commandes.at(i).joursRendu << "\t" << std::endl;
+	  std::cout << "COMMANDE INVALIDE\t nbJours fin developpement : " << (tmp.code + temps_dev) << "\t NbJours fin gestion : " << (tmp.gestion + temps_gestion) << std::endl;
       OK = 1;
     }
     temps_dev += tmp.code;
     temps_gestion += tmp.gestion;
   }
   if (!OK)
-    std::cout << "Avec tout ce pognon, tu nous invites au resto ?" << std::endl;
+    std::cout << "Quelle superbe entreprise, je voul'achête pour 1k de 1k d'€" << std::endl;
   else
-    std::cout << "ICH MÖCHTE SPIELEN !!!! SPIELEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN" << std::endl;
+    std::cout << "Impossible de livrer toutes les commandes" << std::endl;
 }
 
 
 Res Entreprise::faisable (Commande c, int debut_code, int debut_gestion)
 {
-  int jours_code =0, jours_gestion;
+  float eff_code =0., eff_gestion=0.;
   int temps_dev_dispo = c.joursRendu - debut_code;
   int temps_gestion_dispo = c.joursRendu - debut_gestion;
+  
   for (int i = 0; i < l_employes.size(); i++)
   {
-    jours_code    += l_employes.at(i).code * temps_dev_dispo;
-    jours_gestion += l_employes.at(i).gestion * temps_gestion_dispo;
+    eff_code    += l_employes.at(i).code;
+    eff_gestion += l_employes.at(i).gestion;
   }
- 
-  return (Res){jours_code, jours_gestion, !(jours_code > temps_dev_dispo),!(jours_gestion > temps_gestion_dispo)};
+  
+	eff_code *= EFF;
+	eff_gestion *= EFF;
+	
+  float tmp_dev_nec  =(float)c.joursDev / eff_code;
+  float tmp_gest_nec =(float)c.joursGestion / eff_gestion;
+    
+  bool faisable_code = (tmp_dev_nec < temps_dev_dispo);
+  bool faisable_gestion = (tmp_gest_nec < temps_gestion_dispo);
+  
+  
+  return (Res){tmp_dev_nec, tmp_gest_nec, faisable_code,faisable_gestion};
 }
 
 
