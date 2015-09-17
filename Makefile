@@ -10,4 +10,4 @@ $(MYPROGRAM) : $(SOURCE)
 
 # suppression des fichiers.o
 clean:
-	rm -rf *.o
+	rm -rf *.o Tw_erp
