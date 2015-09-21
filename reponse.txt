@@ -1,0 +1,9 @@
+A - Oui, l'entreprise peut délivrer.
+B -
+C - A - Non
+	B - La commande Renult, demande trop de travail en gestion (21jours de trop ) et en développement(19jours de trop) .
+D - Non, le projet est trop gros pour être livré le premier Septembre. On à déjà du retard a cause du projet Renult, et est donc impossible de le finir sans recruter plus d'employes.
+E - Nous avons décidé que le recrutement des personnes commenceraient avant le début de projet, pour qu'il soit engagé le jour même du début, avec une efficacité réduite pendant son premier mois. Ainsi, notre ERP éstime que pour finir tous les projets, ainsi que Airboss, il faudra que 12 personnes prennent leur service entre le 31e et 58e jour de travail. Si les patrons étaient un peu plus sensés, ils recrutraient plus en avance ...
+F - Le recrutement est un plugin mal livré par le developpeur de l'ERP. Il faudrait offrir plus de liberté au client ( définir un dépassement possible) ou faire une interface interactive pour demander les détails du recrutement par rapport à l'analyse de la commande.
+
+PS : cet ERP pourrait sauver la france dans cette crise économique en créant des emplois.

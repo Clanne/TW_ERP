@@ -97,21 +97,21 @@ void Entreprise::evaluer()
 {
   int temps_dev = 0, temps_gestion = 0;
   int OK = 0;
+
   for (size_t i = 0; i < l_commandes.size(); i++)
   {
     Res tmp = faisable(l_commandes.at(i), temps_dev, temps_gestion);
 
     if ( !(tmp.doable_dev && tmp.doable_gestion) )
     {
-       //~ std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t NbDevreq : " << l_commandes.at(i).joursDev <<
-	    //~ "\tNbGestreq : " << l_commandes.at(i).joursGestion << "\t NbJoursAvantRendu : " << l_commandes.at(i).joursRendu << "\t" << std::endl;
-	    //~ std::cout << "COMMANDE INVALIDE\t nbJours fin developpement : " << (tmp.code + temps_dev) << "\t NbJours fin gestion : " << (tmp.gestion + temps_gestion) << std::endl;
+       std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t Jour rendu : " << l_commandes.at(i).joursRendu << "\tCOMMANDE INVALIDE\t Jour fin developpement : " << tmp.code << "\t Jour fin gestion : " << tmp.gestion << std::endl;
 
       float ratio_dev = (float)( (tmp.code) - l_commandes.at(i).joursRendu ) / (float)( l_commandes.at(i).joursRendu - temps_dev ); /*jours_dev_entrop / nbjour_dev_dispo*/
       float ratio_gestion = (float)( (tmp.gestion) - l_commandes.at(i).joursRendu ) / (float)( l_commandes.at(i).joursRendu - temps_gestion ); /*jours_dev_entrop / nbjour_dev_dispo*/
       
      // std::cout << "RATIODEV : " << ratio_dev << std::endl;
      // std::cout << "RATIGEST : " << ratio_gestion	 << std::endl;
+   	std::cout << std::endl;
 
       recruter(temps_dev - 60,ratio_dev,ratio_gestion);
       OK += 1;
@@ -123,7 +123,7 @@ void Entreprise::evaluer()
       temps_gestion = tmp.gestion;
     }
   }
-  std::cout << "Quelle superbe entreprise, je voul'achête pour 1k de 1k d'€, mais vous deverez engager " << OK << " emloyes pour remplir vos objectifs"<< std::endl;
+  std::cout << "Quelle superbe entreprise, je voul'achete pour 1k de 1k d'pognon a la mode $$$, mais vous devrez engager " << OK << " employes pour remplir vos objectifs."<< std::endl;
 }
 
 
@@ -185,13 +185,12 @@ int main(int argc, char* argv[])
 	std::cout << "Quelle est l'efficacite de votre entreprise (entre 0 et 1) ?" << std::endl;
 	std::cin >> efficacite;
 	EFF = atof(efficacite.c_str());
-	
 	std::cout << "Votre entreprise travaille-elle sur le projet AirBOSS y/n ?" << std::endl;
 	std::cin >> airb;
 	if (!strcmp(airb.c_str(),"y"))
 		nbCo = 4;	
-	
-	std::cout << nbCo << std::endl;
+	std::cout << std::endl;
+
 	Entreprise e = Entreprise();
 	e.evaluer();
 	return 0;
