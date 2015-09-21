@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <cstring>
 #include <string>
 #include <algorithm>
 #include <cmath>
@@ -51,5 +52,5 @@ class Entreprise {
 	  void trier_commandes();
 	  float tabTravail [1000][2];
 	  Res faisable (Commande c, int debut, int debut_gestion);
-	  int recruter(int j, float dev, float gest);
+	  void recruter(int j, float ratio_dev, float ratio_gestion);
 };

@@ -1,6 +1,7 @@
 #include "Tw_erp.h"
 #include <iostream>
-static const float EFF = 0.8;
+static float EFF = 0.8;
+static int nbCo = 3; 
 
 Commande::Commande(int num, std::string name, int dev, int gestion, int rendu)
 {
@@ -29,7 +30,7 @@ Entreprise::Entreprise()
   std::ifstream projets("projets.txt", std::ios::in);
   if (projets)
   {
-    while (getline(projets,line))
+    while (getline(projets,line) && l_commandes.size() < nbCo)
     {
       pos = line.find(separator);
       id = atoi(line.substr(0,pos).c_str());
@@ -99,34 +100,20 @@ void Entreprise::evaluer()
   for (size_t i = 0; i < l_commandes.size(); i++)
   {
     Res tmp = faisable(l_commandes.at(i), temps_dev, temps_gestion);
-    
-         //~ std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t NbDevreq : " << l_commandes.at(i).joursDev <<
-	    //~ "\tNbGestreq : " << l_commandes.at(i).joursGestion << "\t NbJoursAvantRendu : " << l_commandes.at(i).joursRendu << "\t" << std::endl;
-	    //~ std::cout << "COMMANDE INVALIDE\t nbJours fin developpement : " << (tmp.code + temps_dev) << "\t NbJours fin gestion : " << (tmp.gestion + temps_gestion) << std::endl;
 
     if ( !(tmp.doable_dev && tmp.doable_gestion) )
     {
-       std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t NbDevreq : " << l_commandes.at(i).joursDev <<
-	    "\tNbGestreq : " << l_commandes.at(i).joursGestion << "\t NbJoursAvantRendu : " << l_commandes.at(i).joursRendu << "\t" << std::endl;
-	    std::cout << "COMMANDE INVALIDE\t nbJours fin developpement : " << (tmp.code + temps_dev) << "\t NbJours fin gestion : " << (tmp.gestion + temps_gestion) << std::endl;
+       //~ std::cout << l_commandes.at(i).id << "\tNom : " << l_commandes.at(i).nom << "\t NbDevreq : " << l_commandes.at(i).joursDev <<
+	    //~ "\tNbGestreq : " << l_commandes.at(i).joursGestion << "\t NbJoursAvantRendu : " << l_commandes.at(i).joursRendu << "\t" << std::endl;
+	    //~ std::cout << "COMMANDE INVALIDE\t nbJours fin developpement : " << (tmp.code + temps_dev) << "\t NbJours fin gestion : " << (tmp.gestion + temps_gestion) << std::endl;
 
       float ratio_dev = (float)( (tmp.code) - l_commandes.at(i).joursRendu ) / (float)( l_commandes.at(i).joursRendu - temps_dev ); /*jours_dev_entrop / nbjour_dev_dispo*/
       float ratio_gestion = (float)( (tmp.gestion) - l_commandes.at(i).joursRendu ) / (float)( l_commandes.at(i).joursRendu - temps_gestion ); /*jours_dev_entrop / nbjour_dev_dispo*/
       
-      std::cout << "RATIODEV : " << ratio_dev << std::endl;
-      std::cout << "RATIGEST : " << ratio_gestion	 << std::endl;
+     // std::cout << "RATIODEV : " << ratio_dev << std::endl;
+     // std::cout << "RATIGEST : " << ratio_gestion	 << std::endl;
 
-      
-      if ( ratio_dev >= 1 || ratio_gestion <= 0)
-      {
-        recruter(temps_dev - 60,1,0);
-      }
-      else if ( ratio_gestion >= 1 || ratio_dev <= 0)
-        {
-          recruter(temps_gestion - 60,0,1);
-        }
-        else
-          recruter(std::min(temps_dev,temps_gestion)-60,0.5,0.5);
+      recruter(temps_dev - 60,ratio_dev,ratio_gestion);
       OK += 1;
       i--;
     }
@@ -151,7 +138,7 @@ Res Entreprise::faisable (Commande c, int debut_code, int debut_gestion)
   for (i = debut_code; eff_code < c.joursDev/EFF; i++)
   {
     eff_code += tabTravail[i][0];
-    std::cout << "TableauTravail : " << tabTravail[i][0] << std::endl;
+  //  std::cout << "TableauTravail : " << tabTravail[i][0] << std::endl;
   }
 
   bool faisable_code = (i <= rendu);
@@ -161,9 +148,24 @@ Res Entreprise::faisable (Commande c, int debut_code, int debut_gestion)
 }
 
 
-int Entreprise::recruter(int j, float dev, float gest)
+void Entreprise::recruter(int j, float ratio_dev, float ratio_gestion)
 {
-	
+  float dev, gest;
+  if( ratio_dev >= 1 || ratio_gestion <= 0)
+  {
+	  dev = 1;
+	  gest = 0;
+  }
+  else if ( ratio_gestion >= 1 || ratio_dev <= 0)
+    {
+	  dev = 0;
+	  gest = 1;
+    }
+    else
+    {   
+	  dev = 0.5;
+	  gest = 0.5;
+    }	
   for (size_t i = j+60; i < j+80; i++)
   {
     tabTravail[i][0] += 0.5*dev;
@@ -174,11 +176,22 @@ int Entreprise::recruter(int j, float dev, float gest)
     tabTravail[i][0] += dev;
     tabTravail[i][1] += gest;
   }
-  std::cout << "Tu dois recruter qqn qui fait " << dev << " de dev et " << gest << " de gestion, la procédure doit commencer le jour :" << j << std::endl;
+  std::cout << "Vous devriez recruter quelqu'un qui fait " << dev << " de developpement et " << gest << " de gestion, la procedure doit commencer le jour :" << j << std::endl;
 }
 
 int main(int argc, char* argv[])
 {
+	std::string efficacite,airb;
+	std::cout << "Quelle est l'efficacite de votre entreprise (entre 0 et 1) ?" << std::endl;
+	std::cin >> efficacite;
+	EFF = atof(efficacite.c_str());
+	
+	std::cout << "Votre entreprise travaille-elle sur le projet AirBOSS y/n ?" << std::endl;
+	std::cin >> airb;
+	if (!strcmp(airb.c_str(),"y"))
+		nbCo = 4;	
+	
+	std::cout << nbCo << std::endl;
 	Entreprise e = Entreprise();
 	e.evaluer();
 	return 0;
