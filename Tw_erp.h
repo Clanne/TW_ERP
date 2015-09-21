@@ -49,7 +49,7 @@ class Entreprise {
 	  std::vector<Employe> l_employes;
 	  void evaluer();
 	  void trier_commandes();
-	  float tabTravail [360][2];
+	  float tabTravail [1000][2];
 	  Res faisable (Commande c, int debut, int debut_gestion);
-		int recruter(int j, float dev, float gest);
+	  int recruter(int j, float dev, float gest);
 };
